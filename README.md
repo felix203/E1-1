@@ -914,7 +914,7 @@ VSCode의 WSL 확장으로 Ubuntu의 저장소 폴더를 열고, GitHub 계정�
 
 ### 13-4. GitHub 저장소 반영 결과
 
-VSCode의 소스 제어 화면에서 커밋하고 `origin`(E1-1)으로 push했다.
+VSCode에 연결된 Ubuntu 터미널(bash)에서 커밋하고 `origin`(E1-1)으로 push했다.
 
 ![GitHub E1-1 저장소 페이지](docs/images/github-repo.png)
 
@@ -983,7 +983,7 @@ wsl: command not found
 - **문제**: Ubuntu를 리눅스 홈에서 바로 시작하려고 PowerShell에서 `wsl ~`를 실행했으나 `C:Usersfelix: command not found` 발생.
 - **원인 가설**: PowerShell 7이 `~`를 Windows 홈 경로(`C:\Users\felix`)로 먼저 바꿔서 wsl에 넘겼고, wsl은 이것을 "실행할 명령"으로 bash에 전달했다. bash는 `\`를 이스케이프 문자로 처리해 지웠으므로 `C:Usersfelix`라는 명령을 찾게 됐을 것이다.
 - **확인**: 에러 메시지의 명령 이름 `C:Usersfelix`는 `C:\Users\felix`에서 `\`만 빠진 형태다. 즉 `~`가 리눅스 홈이 아니라 Windows 홈으로 바뀌어 전달되었다.
-- **해결/대안**: `wsl`로 접속한 뒤 `cd ~/codyssey/workstation/practice`로 이동했다. 따옴표로 감싸 PowerShell이 `~`를 바꾸지 못하게 하는 `wsl '~'`도 대안이다. <!-- wsl '~' 시도 결과 추가 -->
+- **해결/대안**: `wsl`로 접속한 뒤 `cd ~/codyssey/workstation/practice`로 이동했다. 따옴표로 감싸 PowerShell이 `~`를 바꾸지 못하게 하는 `wsl '~'`도 대안이다(이번 실습에서는 시도하지 않음).
 
 ```powershell
 PS C:\Windows\System32> wsl ~
@@ -1065,10 +1065,11 @@ ls (uutils coreutils) 0.8.0
 
 - [x] **인증 정보 비노출**: Ubuntu 계정 비밀번호는 입력 시 화면에 표시되지 않았다. GitHub 인증은 VSCode에서 브라우저 로그인으로 처리되어 토큰이 터미널·문서에 남지 않는다.
 - [x] **커밋 이메일 비공개**: GitHub의 "Keep my email addresses private"를 켜고, 첫 커밋 전에 `user.email`을 noreply 주소로 설정했다.
-- [ ] (선택) GitHub "Block command line pushes that expose my email" 활성화: 개인 이메일이 담긴 커밋의 push를 GitHub이 차단한다.
-- [ ] **커밋 대상 파일 점검**: README, Dockerfile, 정적 HTML, 실습 파일, 스크린샷만 포함되며 비밀 정보가 없다.
-- [ ] **스크린샷 점검**: 다른 탭, 계정 정보, 알림 등 불필요한 개인 정보가 보이지 않는다.
+- [x] **커밋 대상 파일 점검**: 저장소에는 README, Dockerfile, 정적 HTML(`site/`, `bind-site/`), 실습 파일(`practice/`), 스크린샷(`docs/images/`)만 포함되며 비밀 정보가 없다. GitHub에서 두 커밋의 작성자 이메일이 모두 noreply 주소임을 확인했다.
+- [x] **스크린샷 점검**: 3장 모두 토큰, 비밀번호, 이메일 등 개인 정보가 보이지 않는다.
 
+> 추가 권장: GitHub의 "Block command line pushes that expose my email"을 켜 두면, 개인 이메일이 작성자로 들어간 커밋의 push를 GitHub이 차단해 실수를 막을 수 있다.
+>
 > 민감정보가 커밋된 경우 파일을 지우는 새 커밋만으로는 이력에 남는다. 해당 토큰·비밀번호를 즉시 폐기하고 재발급한 뒤, 이력에서 제거한다.
 
 ## 16. 과제 목표 정리
